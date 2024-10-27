@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Immo Kongo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main>
+      <!-- reservation section -->
+      <section class="reservation">
+        <div class="reservation__container">
+          <h2 class="reservation__title">Réserver votre chambre</h2>
+          <div class="reservation__form">
+            <div class="reservation__dates">
+              <input type="date" class="reservation__input" />
+              <input type="date" class="reservation__input" />
+              <input
+                type="number"
+                class="reservation__input"
+                placeholder="Nombre d'adultes"
+              />
+              <input
+                type="number"
+                class="reservation__input"
+                placeholder="Nombre d'enfants"
+              />
+            </div>
+            <div class="reservation__button">
+              <button class="reservation__search-button">
+                Chercher une chambre
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- nos hôtels section -->
+      <section id="hotels" class="hotels">
+        <div class="hotels__container">
+          <div class="hotels__header">
+            <h2 class="hotels__title">Nos Hôtels</h2>
+            <p class="hotels__description">
+              Découvrez notre sélection d'hôtels avec des services
+              exceptionnels.
+            </p>
+          </div>
+          <div class="hotels__navigation">
+            <div class="hotels__arrow hotels__arrow--left">
+              <img
+                class="hotels__icon"
+                src="Assets/icon/left-arrow.png"
+                alt="Flèche gauche"
+              />
+            </div>
+            <div class="hotels__buttonPlus">
+              <button class="hotels__buttonPlus">Voir plus</button>
+            </div>
+            <div class="hotels__arrow hotels__arrow--right">
+              <img
+                class="hotels__icon"
+                src="Assets/icon/right-arrow.png"
+                alt="Flèche droite"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="hotels__slider">
+          <!-- Add hotel cards here in the same way as rooms -->
+        </div>
+      </section>
+      <!-- nos chambres section -->
+      <section id="rooms" class="rooms">
+        <div class="rooms__container">
+          <div class="rooms__header">
+            <h2 class="rooms__title">Nos chambres</h2>
+            <p class="rooms__description">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+          <div class="rooms__navigation">
+            <div class="rooms__arrow rooms__arrow--left">
+              <img
+                class="rooms__icon"
+                src="Assets/icon/left-arrow.png"
+                alt="Flèche gauche"
+              />
+            </div>
+            <div class="rooms__buttonPlus">
+              <button class="rooms__buttonPlus">voir plus</button>
+            </div>
+            <div class="rooms__arrow rooms__arrow--right">
+              <img
+                class="rooms__icon"
+                src="Assets/icon/right-arrow.png"
+                alt="Flèche droite"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="rooms__slider"></div>
+      </section>
+    </main>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    <script src="rooms.js"></script>
+  </body>
+</html>

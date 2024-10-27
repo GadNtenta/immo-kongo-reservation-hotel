@@ -1,0 +1,113 @@
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+/* Conteneur des chambres */
+.rooms__slider {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Carte de chambre */
+.room-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    padding: 20px;
+    width: 300px; /* Largeur de la carte */
+    transition: transform 0.3s, box-shadow 0.3s; /* Effet de transition */
+}
+
+.room-card:hover {
+    transform: translateY(-5px); /* Légère élévation lors du survol */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Ombre plus forte lors du survol */
+}
+
+.room-card img {
+    width: 100%; /* Prend toute la largeur de la carte */
+    border-radius: 8px; /* Coins arrondis de l'image */
+}
+
+.room-card h3 {
+    margin: 10px 0;
+    font-size: 1.5em; /* Taille de la police pour le nom de la chambre */
+    color: #333; /* Couleur du texte */
+}
+
+.room-card p {
+    margin: 5px 0;
+    color: #666; /* Couleur du texte pour la description et le prix */
+}
+
+/* Prix */
+.room-card p:last-of-type {
+    font-weight: bold; /* Prix en gras */
+    color: #28a745; /* Couleur verte pour le prix */
+}
+
+/* Styles pour le bouton Réserver */
+.reserve-button {
+    background-color: #007bff; /* Couleur de fond du bouton */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 15px; /* Espacement intérieur */
+    cursor: pointer; /* Curseur en forme de main */
+    font-size: 1em; /* Taille de la police */
+    transition: background-color 0.3s, transform 0.3s; /* Effet de transition */
+    margin-top: 10px; /* Espacement au-dessus du bouton */
+}
+
+.reserve-button:hover {
+    background-color: #0056b3; /* Couleur au survol */
+    transform: translateY(-2px); /* Légère élévation lors du survol */
+}
+.room-carousel {
+    position: relative;
+    width: 100%;
+    max-width: 600px; /* Ajustez selon votre mise en page */
+    overflow: hidden;
+    text-align: center;
+}
+
+.room-carousel img {
+    width: 100%;
+    display: none;
+}
+
+.carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    font-size: 2em;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
+}
