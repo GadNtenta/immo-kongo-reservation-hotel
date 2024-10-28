@@ -18,6 +18,14 @@ h1 {
 }
 
 /* Conteneur des chambres */
+.rooms-section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: center; */
+    margin: 20px;
+    height: 100vh;
+}
 .rooms__slider {
     display: flex;
     flex-wrap: wrap;

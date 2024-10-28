@@ -5,8 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Immo Kongo</title>
     <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./header_footer.css" />
   </head>
   <body>
+    <header class="header">
+      <div class="header__logo">
+        <img
+          class="header__logo-image"
+          src="Assets/immokongo.jpg.webp"
+          alt="logo-immo-kongo"
+        />
+      </div>
+      <div class="header__nav">
+        <ul class="header__nav-list">
+          <li class="header__nav-item">
+            <a class="header__nav-link" href="https://immokongo.com">Accueil</a>
+          </li>
+          <li class="header__nav-item">
+            <a class="header__nav-link" href="index.html">Bien immobilier</a>
+          </li>
+          <li class="header__nav-item">
+            <a class="header__nav-link" href="chambres.html">Chambres</a>
+          </li>
+          <li class="header__nav-item">
+            <a class="header__nav-link" href="hotels.html">Hôtels</a>
+          </li>
+          <li class="header__nav-item">
+            <a class="header__nav-link" href="contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </header>
     <main>
       <!-- reservation section -->
       <section class="reservation">
@@ -102,6 +131,27 @@
         <div class="rooms__slider"></div>
       </section>
     </main>
+
+    <footer class="footer">
+      <div class="footer__content">
+        <img
+          class="footer__logo"
+          src="Assets/LOGO-KONGO-1-300x300.png.webp"
+          alt="logo-footer"
+        />
+        <p class="footer__text">
+          Built and maintained by:
+          <a class="footer__link" href="https://gad-ntenta.vercel.app"
+            >Gad Ntenta</a
+          >
+        </p>
+        <p class="footer__text footer__text--copyright">
+          © 2024. Tous droits réservés.
+        </p>
+      </div>
+    </footer>
+
+    <script src="header_footer.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
     <script src="rooms.js"></script>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Hôtelier de Luxe</title>
+    <style>
+        :root {
+            --primary-color: #1a5f7a;
+            --secondary-color: #159895;
+            --accent-color: #57c5b6;
+            --background-color: #f9f9f9;
+            --card-color: #ffffff;
+            --text-color: #333333;
+        }
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: var(--primary-color);
+            text-align: center;
+        }
+        .form-section {
+            background-color: var(--card-color);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+        .display-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        .card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        .star-rating {
+            color: #ffd700;
+            font-size: 20px;
+        }
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        #export-button {
+            background-color: var(--primary-color);
+            margin-top: 20px;
+        }
+        #export-button:hover {
+            background-color: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Tableau de Bord Hôtelier de Luxe</h1>
+        
+        <div class="form-section">
+            <h2>Ajouter un Hôtel</h2>
+            <form id="hotel-form">
+                <div class="form-group">
+                    <label for="hotel-nom">Nom de l'hôtel</label>
+                    <input type="text" id="hotel-nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="hotel-description">Description</label>
+                    <textarea id="hotel-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="hotel-images">Images de l'hôtel (plusieurs autorisées)</label>
+                    <input type="file" id="hotel-images" accept="image/*" multiple required>
+                    <div id="hotel-image-preview" class="image-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label for="hotel-prix">Prix</label>
+                    <input type="text" id="hotel-prix" required>
+                </div>
+                <div class="form-group">
+                    <label for="hotel-note">Note</label>
+                    <input type="number" id="hotel-note" min="0" max="5" step="0.1" required>
+                </div>
+                <button type="submit">Ajouter l'Hôtel</button>
+            </form>
+        </div>
+
+        <div class="form-section">
+            <h2>Ajouter une Chambre</h2>
+            <form id="chambre-form">
+                <div class="form-group">
+                    <label for="chambre-nom">Nom de la chambre</label>
+                    <input type="text" id="chambre-nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="chambre-description">Description</label>
+                    <textarea id="chambre-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="chambre-images">Images de la chambre (plusieurs autorisées)</label>
+                    <input type="file" id="chambre-images" accept="image/*" multiple required>
+                    <div id="chambre-image-preview" class="image-preview"></div>
+                </div>
+                <div class="form-group">
+                    <label for="chambre-prix">Prix</label>
+                    <input type="text" id="chambre-prix" required>
+                </div>
+                <div class="form-group">
+                    <label for="chambre-note">Note</label>
+                    <input type="number" id="chambre-note" min="0" max="5" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label for="chambre-hotel">Hôtel</label>
+                    <select id="chambre-hotel" required></select>
+                </div>
+                <button type="submit">Ajouter la Chambre</button>
+            </form>
+        </div>
+
+        <h2>Hôtels</h2>
+        <div id="hotels-display" class="display-section"></div>
+
+        <h2>Chambres</h2>
+        <div id="chambres-display" class="display-section"></div>
+
+        <button id="export-button">Exporter les données</button>
+    </div>
+
+    <script>
+        let hotels = [];
+        let chambres = [];
+
+        // Charger les données initiales
+        fetch('data.js')
+            .then(response => response.text())
+            .then(data => {
+                eval(data);
+                hotels = window.hotels;
+                chambres = window.chambres;
+                afficherHotels();
+                afficherChambres();
+                mettreAJourSelectHotel();
+            })
+            .catch(error => console.error('Erreur lors du chargement des données:', error));
+
+        function previewImages(input, previewId) {
+            const preview = document.getElementById(previewId);
+            preview.innerHTML = '';
+            const files = input.files;
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        }
+
+        document.getElementById('hotel-images').addEventListener('change', function() {
+            previewImages(this, 'hotel-image-preview');
+        });
+
+        document.getElementById('chambre-images').addEventListener('change', function() {
+            previewImages(this, 'chambre-image-preview');
+        });
+
+        function ajouterHotel(event) {
+            event.preventDefault();
+            const imageFiles = document.getElementById('hotel-images').files;
+            const images = [];
+
+            const processImages = (index) => {
+                if (index < imageFiles.length) {
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        const fileName = imageFiles[index].name;
+                        images.push(`Assets/Images/${fileName}`);
+                        // Note: In a real application, you would implement server-side logic here to save the file
+                        processImages(index + 1);
+                    }
+                    reader.readAsDataURL(imageFiles[index]);
+                } else {
+                    const nouvelHotel = {
+                        nom: document.getElementById('hotel-nom').value,
+                        description: document.getElementById('hotel-description').value,
+                        image: images[0],
+                        prix: document.getElementById('hotel-prix').value,
+                        note: parseFloat(document.getElementById('hotel-note').value),
+                        chambres: []
+                    };
+                    hotels.push(nouvelHotel);
+                    afficherHotels();
+                    mettreAJourSelectHotel();
+                    event.target.reset();
+                    document.getElementById('hotel-image-preview').innerHTML = '';
+                }
+            };
+
+            processImages(0);
+        }
+
+        function ajouterChambre(event) {
+            event.preventDefault();
+            const imageFiles = document.getElementById('chambre-images').files;
+            const images = [];
+
+            const processImages = (index) => {
+                if (index < imageFiles.length) {
+                    const reader = new FileReader();
+                    reader.onloadend = function() {
+                        const fileName = imageFiles[index].name;
+                        images.push(`Assets/Images/${fileName}`);
+                        // Note: In a real application, you would implement server-side logic here to save the file
+                        processImages(index + 1);
+                    }
+                    reader.readAsDataURL(imageFiles[index]);
+                } else {
+                    const nouvelleChambre = {
+                        nom: document.getElementById('chambre-nom').value,
+                        description: document.getElementById('chambre-description').value,
+                        image: images[0],
+                        prix: document.getElementById('chambre-prix').value,
+                        note: parseFloat(document.getElementById('chambre-note').value),
+                        hotel: document.getElementById('chambre-hotel').value
+                    };
+                    chambres.push(nouvelleChambre);
+                    const hotelIndex = hotels.findIndex(h => h.nom === nouvelleChambre.hotel);
+                    if (hotelIndex !== -1) {
+                        hotels[hotelIndex].chambres.push(nouvelleChambre.nom);
+                    }
+                    afficherChambres();
+                    afficherHotels();
+                    event.target.reset();
+                    document.getElementById('chambre-image-preview').innerHTML = '';
+                }
+            };
+
+            processImages(0);
+        }
+
+        function afficherHotels() {
+            const container = document.getElementById('hotels-display');
+            container.innerHTML = '';
+            hotels.forEach(hotel => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${hotel.image}" alt="${hotel.nom}">
+                    <h3>${hotel.nom}</h3>
+                    <p>${hotel.description}</p>
+                    <p>Prix: ${hotel.prix}</p>
+                    <p class="star-rating">Note: ${'★'.repeat(Math.round(hotel.note))}</p>
+                    <p>Chambres: ${hotel.chambres.join(', ') || 'Aucune chambre'}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function afficherChambres() {
+            const container = document.getElementById('chambres-display');
+            container.innerHTML = '';
+            chambres.forEach(chambre => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <img src="${chambre.image}" alt="${chambre.nom}">
+                    <h3>${chambre.nom}</h3>
+                    <p>${chambre.description}</p>
+                    <p>Prix: ${chambre.prix}</p>
+                    <p class="star-rating">Note: ${'★'.repeat(Math.round(chambre.note))}</p>
+                    <p>Hôtel: ${chambre.hotel}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function mettreAJourSelectHotel() {
+            const select = document.getElementById('chambre-hotel');
+            select.innerHTML = '';
+            hotels.forEach(hotel => {
+                const option = document.createElement('option');
+                option.value = hotel.nom;
+                option.textContent = hotel.nom;
+                select.appendChild(option);
+            });
+        }
+
+        function exporterDonnees() {
+            const donnees = `
+// data.js
+
+// Configuration des chambres
+const chambres = ${JSON.stringify(chambres, null, 2)};
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Configuration des hôtels
+const hotels = ${JSON.stringify(hotels, null, 2)};
+            `;
+
+            const blob =   new Blob([donnees], { type: 'application/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'data.js';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Ici, vous devriez implémenter une logique pour exporter le dossier Assets
+            // Pour cet exemple, nous allons simplement simuler l'exportation
+            console.log('Dossier Assets exporté');
+        }
+
+        document.getElementById('hotel-form').addEventListener('submit', ajouterHotel);
+        document.getElementById('chambre-form').addEventListener('submit', ajouterChambre);
+        document.getElementById('export-button').addEventListener('click', exporterDonnees);
+    </script>
+</body>
+</html>

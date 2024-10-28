@@ -1,64 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/style.css" />
     <title>Hôtels Disponibles</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Bienvenue sur notre site de réservation d'hôtels</h1>
-        <input type="text" id="search" placeholder="Rechercher un hôtel...">
+      <h1>Bienvenue sur notre site de réservation d'hôtels</h1>
+      <input type="text" id="search" placeholder="Rechercher un hôtel..." />
     </header>
     <div class="container" id="hotels-container"></div>
 
+    <script src="header_footer.js"></script>
     <script src="javascript/data.js"></script>
     <script>
-        const hotelsContainer = document.getElementById('hotels-container');
-        const searchInput = document.getElementById('search');
+      const hotelsContainer = document.getElementById("hotels-container");
+      const searchInput = document.getElementById("search");
 
-        function renderHotels(hotels) {
-            hotelsContainer.innerHTML = '';
-            hotels.forEach(hotel => {
-                const hotelCard = document.createElement('div');
-                hotelCard.className = 'card';
-                hotelCard.innerHTML = `
-                    <img src="${hotel.photos[0]}" alt="${hotel.nom}" class="hotel-photo">
+      function renderHotels(hotels) {
+        hotelsContainer.innerHTML = "";
+        hotels.forEach((hotel) => {
+          const hotelCard = document.createElement("div");
+          hotelCard.className = "card";
+          hotelCard.innerHTML = `
+                    <img src="${hotel.photos[0]}" alt="${
+            hotel.nom
+          }" class="hotel-photo">
                     <div class="hotel-info">
                         <h2>${hotel.nom}</h2>
                         <p class="hotel-description">${hotel.description}</p>
                         <p><strong>Adresse :</strong> ${hotel.adresse}</p>
-                        <p><strong>Classement :</strong> ${hotel.classement} (${hotel.nbAvis} avis)</p>
+                        <p><strong>Classement :</strong> ${hotel.classement} (${
+            hotel.nbAvis
+          } avis)</p>
                         <p><strong>Téléphone :</strong> ${hotel.telephone}</p>
-                        <p><strong>Email :</strong> <a href="mailto:${hotel.email}">${hotel.email}</a></p>
-                        <p><strong>Site Web :</strong> <a href="${hotel.siteWeb}" target="_blank">${hotel.siteWeb}</a></p>
+                        <p><strong>Email :</strong> <a href="mailto:${
+                          hotel.email
+                        }">${hotel.email}</a></p>
+                        <p><strong>Site Web :</strong> <a href="${
+                          hotel.siteWeb
+                        }" target="_blank">${hotel.siteWeb}</a></p>
                         <h4>Services :</h4>
                         <ul>
-                            ${hotel.services.map(service => `<li>${service}</li>`).join('')}
+                            ${hotel.services
+                              .map((service) => `<li>${service}</li>`)
+                              .join("")}
                         </ul>
                         <div class="hotel-reviews">
                             <h4>Avis des clients :</h4>
-                            <p>${hotel.nbAvis} avis - Classement moyen : ${hotel.classement} ⭐</p>
+                            <p>${hotel.nbAvis} avis - Classement moyen : ${
+            hotel.classement
+          } ⭐</p>
                         </div>
-                        <button onclick="location.href='chambres.html?hotelId=${hotel.id}'">Voir les chambres</button>
+                        <button onclick="location.href='chambres.html?hotelId=${
+                          hotel.id
+                        }'">Voir les chambres</button>
                     </div>
                 `;
-                hotelsContainer.appendChild(hotelCard);
-            });
-        }
-
-        // Fonction pour filtrer les hôtels par recherche
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredHotels = hotelsData.filter(hotel => 
-                hotel.nom.toLowerCase().includes(searchTerm) || 
-                hotel.description.toLowerCase().includes(searchTerm)
-            );
-            renderHotels(filteredHotels);
+          hotelsContainer.appendChild(hotelCard);
         });
+      }
 
-        renderHotels(hotelsData); // Affiche tous les hôtels par défaut
+      // Fonction pour filtrer les hôtels par recherche
+      searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const filteredHotels = hotelsData.filter(
+          (hotel) =>
+            hotel.nom.toLowerCase().includes(searchTerm) ||
+            hotel.description.toLowerCase().includes(searchTerm)
+        );
+        renderHotels(filteredHotels);
+      });
+
+      renderHotels(hotelsData); // Affiche tous les hôtels par défaut
     </script>
-</body>
+  </body>
 </html>
