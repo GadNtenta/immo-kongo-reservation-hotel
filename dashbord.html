@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord Hôtelier de Luxe</title>
+    <title>Tableau de Bord IMMO KONGO</title>
     <style>
         :root {
             --primary-color: #1a5f7a;
@@ -135,11 +135,11 @@
                 <div class="form-group">
                     <label for="hotel-images">Images de l'hôtel (plusieurs autorisées)</label>
                     <input type="file" id="hotel-images" accept="image/*" multiple required>
-                    <div id="hotel-image-preview" class="image-preview"></div>
+                    <div id="hotel-image-preview" class="image-preview" aria-live="polite"></div>
                 </div>
                 <div class="form-group">
                     <label for="hotel-prix">Prix</label>
-                    <input type="text" id="hotel-prix" required>
+                    <input type="number" id="hotel-prix" min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="hotel-note">Note</label>
@@ -163,11 +163,11 @@
                 <div class="form-group">
                     <label for="chambre-images">Images de la chambre (plusieurs autorisées)</label>
                     <input type="file" id="chambre-images" accept="image/*" multiple required>
-                    <div id="chambre-image-preview" class="image-preview"></div>
+                    <div id="chambre-image-preview" class="image-preview" aria-live="polite"></div>
                 </div>
                 <div class="form-group">
                     <label for="chambre-prix">Prix</label>
-                    <input type="text" id="chambre-prix" required>
+                    <input type="number" id="chambre-prix" min="0" step="0.01" required>
                 </div>
                 <div class="form-group">
                     <label for="chambre-note">Note</label>
@@ -198,9 +198,11 @@
         fetch('data.js')
             .then(response => response.text())
             .then(data => {
-                eval(data);
-                hotels = window.hotels;
-                chambres = window.chambres;
+                const script = document.createElement('script');
+                script.textContent = data;
+                document.body.appendChild(script);
+                hotels = window.hotels || [];
+                chambres = window.chambres || [];
                 afficherHotels();
                 afficherChambres();
                 mettreAJourSelectHotel();
@@ -219,6 +221,7 @@
                 reader.onload = function(e) {
                     const img = document.createElement('img');
                     img.src = e.target.result;
+                    img.alt = `Aperçu de l'image ${i + 1}`;
                     preview.appendChild(img);
                 }
 
@@ -245,7 +248,6 @@
                     reader.onloadend = function() {
                         const fileName = imageFiles[index].name;
                         images.push(`Assets/Images/${fileName}`);
-                        // Note: In a real application, you would implement server-side logic here to save the file
                         processImages(index + 1);
                     }
                     reader.readAsDataURL(imageFiles[index]);
@@ -254,7 +256,7 @@
                         nom: document.getElementById('hotel-nom').value,
                         description: document.getElementById('hotel-description').value,
                         image: images[0],
-                        prix: document.getElementById('hotel-prix').value,
+                        prix: parseFloat(document.getElementById('hotel-prix').value),
                         note: parseFloat(document.getElementById('hotel-note').value),
                         chambres: []
                     };
@@ -280,7 +282,6 @@
                     reader.onloadend = function() {
                         const fileName = imageFiles[index].name;
                         images.push(`Assets/Images/${fileName}`);
-                        // Note: In a real application, you would implement server-side logic here to save the file
                         processImages(index + 1);
                     }
                     reader.readAsDataURL(imageFiles[index]);
@@ -289,7 +290,7 @@
                         nom: document.getElementById('chambre-nom').value,
                         description: document.getElementById('chambre-description').value,
                         image: images[0],
-                        prix: document.getElementById('chambre-prix').value,
+                        prix: parseFloat(document.getElementById('chambre-prix').value),
                         note: parseFloat(document.getElementById('chambre-note').value),
                         hotel: document.getElementById('chambre-hotel').value
                     };
@@ -318,8 +319,10 @@
                     <img src="${hotel.image}" alt="${hotel.nom}">
                     <h3>${hotel.nom}</h3>
                     <p>${hotel.description}</p>
-                    <p>Prix: ${hotel.prix}</p>
-                    <p class="star-rating">Note: ${'★'.repeat(Math.round(hotel.note))}</p>
+                    <p>Prix: ${hotel.prix.toFixed(2)} €</p>
+                    <p class="star-rating" aria-label="Note: ${hotel.note} sur 5">
+                        ${'★'.repeat(Math.round(hotel.note))}${'☆'.repeat(5 - Math.round(hotel.note))}
+                    </p>
                     <p>Chambres: ${hotel.chambres.join(', ') || 'Aucune chambre'}</p>
                 `;
                 container.appendChild(card);
@@ -336,8 +339,10 @@
                     <img src="${chambre.image}" alt="${chambre.nom}">
                     <h3>${chambre.nom}</h3>
                     <p>${chambre.description}</p>
-                    <p>Prix: ${chambre.prix}</p>
-                    <p class="star-rating">Note: ${'★'.repeat(Math.round(chambre.note))}</p>
+                    <p>Prix: ${chambre.prix.toFixed(2)} €</p>
+                    <p class="star-rating" aria-label="Note: ${chambre.note} sur 5">
+                        ${'★'.repeat(Math.round(chambre.note))}${'☆'.repeat(5 - Math.round(chambre.note))}
+                    </p>
                     <p>Hôtel: ${chambre.hotel}</p>
                 `;
                 container.appendChild(card);
@@ -368,7 +373,7 @@ const chambres = ${JSON.stringify(chambres, null, 2)};
 const hotels = ${JSON.stringify(hotels, null, 2)};
             `;
 
-            const blob =   new Blob([donnees], { type: 'application/javascript' });
+            const blob = new Blob([donnees], { type: 'application/javascript' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
@@ -378,13 +383,13 @@ const hotels = ${JSON.stringify(hotels, null, 2)};
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
 
-            // Ici, vous devriez implémenter une logique pour exporter le dossier Assets
-            // Pour cet exemple, nous allons simplement simuler l'exportation
-            console.log('Dossier Assets exporté');
+            alert('Données exportées avec succès. N\'oubliez pas d\'exporter également le dossier Assets manuellement.');
         }
 
         document.getElementById('hotel-form').addEventListener('submit', ajouterHotel);
-        document.getElementById('chambre-form').addEventListener('submit', ajouterChambre);
+        document.getElementById('chambre-form').addEventListener('submit', 
+
+ ajouterChambre);
         document.getElementById('export-button').addEventListener('click', exporterDonnees);
     </script>
 </body>
