@@ -13,7 +13,7 @@
   --font-paragraphe: 14px; /* Paragraphe */
   --font-paragraphe-petit: 12px; /* Paragraphe petit */
   --couleur-primaire: #3498db; /* Couleur principale */
-  --couleur-secondaire: #2ecc71; /* Couleur secondaire */
+  --couleur-secondaire: #0F2442; /* Couleur secondaire */
   --couleur-texte-principal: #333333; /* Couleur du texte principal */
   --couleur-texte-secondaire: #7f8c8d; /* Couleur du texte secondaire */
   --couleur-fond: #ffffff; /* Couleur de fond */
@@ -21,7 +21,7 @@
   --couleur-bouton-hover: #c0392b; /* Couleur des boutons au survol */
   --couleur-erreur: #e74c3c; /* Couleur d'erreur */
   --couleur-succes: #2ecc71; /* Couleur de succès */
-  --couleur-info: #3498db;
+  --couleur-info: #46A7C2;
 }
 
 body {
@@ -46,8 +46,8 @@ h2 {
   align-items: center;
   height: 15vh;
   padding: 0 4rem;
-  color: var(--couleur-texte-principal);
-  background-color: var(--couleur-info);
+  color: var(--couleur-fond);
+  background-color: #0F2442;
 }
 
 .reservation__form {
@@ -112,8 +112,9 @@ hr {
   background-color: var(--couleur-info);
 }
 
-.rooms__buttonPlus:hover {
+.rooms__buttonPlus:hover, .hotels__buttonPlus:hover {
   background-color: var(--couleur-secondaire);
+  color: var(--couleur-fond);
 }
 
 .rooms__header {
