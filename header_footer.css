@@ -3,7 +3,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 5rem;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
+  margin: 1.5rem;
 }
 
 .header__logo-image {
@@ -19,28 +20,29 @@
 
 .header__nav-link {
   text-decoration: none;
+  font-size: 16px;
   color: #000;
 
   &:hover {
-    color: #46a7c2;
+    color: #3AA6B9;
   }
 
   &:active {
-    color: #46a7c2;
+    color: #3AA6B9;
     font-weight: bold;
   }
 
   &:focus {
-    color: #46a7c2;
+    color: #3AA6B9;
   }
 }
 
-.footer__content{
+.footer__content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 5rem;
-  background-color: #6EC1E4;
+  background-color: #2997AA;
 }
 
 .footer__logo {
@@ -48,7 +50,12 @@
   height: 5rem;
 }
 
-.footer__content{
+.footer__content {
   display: flex;
   height: 10rem;
+}
+
+.footer__link{
+  text-decoration: none;
+  color: #3AA6B9;
 }
