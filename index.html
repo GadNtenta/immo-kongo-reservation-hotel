@@ -23,8 +23,17 @@
             alt="logo-immo-kongo"
           />
         </a>
+
+        <!-- Icône du menu hamburger -->
+        <img
+          id="menuIcon"
+          class="header__menu-icon"
+          src="Assets/icon/menu-humberger.png"
+          alt="menu icon"
+          onclick="toggleMenu()"
+        />
       </div>
-      <div class="header__nav">
+      <div class="header__nav" id="navMenu">
         <ul class="header__nav-list">
           <li class="header__nav-item">
             <a class="header__nav-link" href="https://immokongo.com">ACCUEIL</a>
@@ -47,6 +56,7 @@
         </ul>
       </div>
     </header>
+
     <main>
       <!-- reservation section -->
       <section class="reservation">
@@ -68,10 +78,35 @@
               />
             </div>
             <div class="reservation__button">
-              <button class="reservation__search-button">
+              <button id="showPopupButton" class="reservation__search-button">
                 Chercher une chambre
               </button>
             </div>
+          </div>
+        </div>
+
+        <!-- Pop-up de réservation caché par défaut -->
+        <div class="reservation__popup" id="reservationPopup">
+          <div class="reservation__popup-content">
+            <button id="closePopupButton" class="reservation__close-button">
+              X
+            </button>
+            <h3 class="reservation__popup-title">Complétez vos informations</h3>
+            <input type="date" class="reservation__input" />
+            <input type="date" class="reservation__input" />
+            <input
+              type="number"
+              class="reservation__input"
+              placeholder="Nombre d'adultes"
+            />
+            <input
+              type="number"
+              class="reservation__input"
+              placeholder="Nombre d'enfants"
+            />
+            <button id="launchSearchButton" class="reservation__confirm-button">
+              Lancer la recherche
+            </button>
           </div>
         </div>
       </section>
@@ -163,6 +198,8 @@
     </footer>
 
     <script src="header_footer.js"></script>
+    <script src="menu-humberger.js"></script>
+    <script src="pop-up.js"></script>
     <script src="data.js"></script>
     <script src="script.js"></script>
     <script src="rooms.js"></script>
