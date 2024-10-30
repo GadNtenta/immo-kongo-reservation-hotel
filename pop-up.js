@@ -13,11 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function launchSearch() {
-    closePopup(); // Close the popup after launching the search
-    // Add your search logic here
+    closePopup(); 
   }
 
-  // Assign these functions to your buttons
   document
     .getElementById("showPopupButton")
     .addEventListener("click", showPopup);

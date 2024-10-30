@@ -59,9 +59,14 @@
   height: 10rem;
 }
 
+.footer__text {
+  color: var(--couleur-fond);
+}
+
 .footer__link {
   text-decoration: none;
-  color: #3aa6b9;
+  cursor: pointer;
+  color: #5fd1e5;
 }
 .reservation__popup {
   display: none; /* Masqué par défaut */
@@ -219,5 +224,10 @@
   }
   .reservation__dates {
     display: none;
+  }
+
+  .rooms__container{
+    margin: 0;
+    padding: 0;
   }
 }

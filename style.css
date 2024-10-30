@@ -469,6 +469,8 @@ hr {
   height: 400px;
 }
 
+
+
 @media screen and (max-width: 768px) {
   :root {
     --font-grand-titre: 48px;
@@ -518,8 +520,7 @@ hr {
 
   .rooms__navigation,
   .hotels__navigation {
-    flex-direction: column;
-    align-items: center;
+    align-items: end;
   }
 
   .rooms__buttonPlus,
@@ -534,4 +535,18 @@ hr {
   .reservation-popup__buttons {
     flex-direction: column;
   }
+
+  /* .hotels__arrow{
+    width: 24px;
+    height: 24px;
+  }
+
+  .hotels__icon{
+    width: 24px;
+    height: 24px;
+  } */
+
+  /* .hotels__buttonPlus{
+    width: 48px;
+  } */
 }
