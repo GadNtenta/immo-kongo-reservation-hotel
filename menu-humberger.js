@@ -7,7 +7,7 @@ function toggleMenu() {
 
   // Changer l'icône du menu en fonction de l'état du menu
   if (navMenu.classList.contains("active")) {
-    menuIcon.src = "Assets/menu-humberger-open1.webp"; // Icône ouverte
+    menuIcon.src = "https://raw.githubusercontent.com/GadNtenta/immo-kongo-reservation-hotel/refs/heads/main/Assets/menu-humberger-open1_1.webp"; // Icône ouverte
   } else {
     menuIcon.src = "Assets/menu-humberger1.webp"; // Icône fermée
   }
