@@ -138,7 +138,7 @@
           </div>
           <div class="form-group">
             <label for="hotel-images"
-              >Images de l'hôtel (plusieurs autorisées)</label
+              >Images de l'hôtel</label
             >
             <input
               type="file"
@@ -154,7 +154,7 @@
             ></div>
           </div>
           <div class="form-group">
-            <label for="hotel-prix">Prix</label>
+            <label for="hotel-prix">A partir de </label>
             <input type="number" id="hotel-prix" min="0" step="0.01" required />
           </div>
           <div class="form-group">
@@ -185,7 +185,7 @@
           </div>
           <div class="form-group">
             <label for="chambre-images"
-              >Images de la chambre (plusieurs autorisées)</label
+              >Image ou video de la chambre</label
             >
             <input
               type="file"
@@ -201,7 +201,7 @@
             ></div>
           </div>
           <div class="form-group">
-            <label for="chambre-prix">Prix</label>
+            <label for="chambre-prix">Prix de la chambre</label>
             <input
               type="number"
               id="chambre-prix"
@@ -489,7 +489,6 @@ const hotels = ${JSON.stringify(hotelsModifies, null, 2)};
             alert("Exportation en cours. Le téléchargement commencera automatiquement une fois terminé.");
         }
 
-        // Les éc
       document
         .getElementById("hotel-form")
         .addEventListener("submit", ajouterHotel);
