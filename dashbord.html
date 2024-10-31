@@ -425,58 +425,71 @@ function ajouterChambre(event) {
     processImages(0);
 }
 
-function exporterDonnees() {
-    const zip = new JSZip();
-    const imgFolder = zip.folder("Assets/Images");
+        function exporterDonnees() {
+            const zip = new JSZip();
+            const imgFolder = zip.folder("Assets/Images");
 
-    // Ajouter data.js au zip
-    const donnees = `
+            // Modifier les objets hotels et chambres pour le stockage dans data.js
+            const hotelsModifies = hotels.map(hotel => ({
+                ...hotel,
+                image: `Assets/Images/${hotel.image.nom}`
+            }));
+
+            const chambresModifiees = chambres.map(chambre => ({
+                ...chambre,
+                image: `Assets/Images/${chambre.image.nom}`
+            }));
+
+            // Ajouter data.js au zip avec les données modifiées
+            const donnees = `
 // data.js
 
 // Configuration des chambres
-const chambres = ${JSON.stringify(chambres, null, 2)};
+const chambres = ${JSON.stringify(chambresModifiees, null, 2)};
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Configuration des hôtels
-const hotels = ${JSON.stringify(hotels, null, 2)};
-    `;
-    zip.file("data.js", donnees);
+const hotels = ${JSON.stringify(hotelsModifies, null, 2)};
+            `;
+            zip.file("data.js", donnees);
 
-    // Ajouter les images au zip
-    hotels.forEach(hotel => {
-        if (hotel.image && hotel.image.data) {
-            const imageData = hotel.image.data.split(',')[1]; // Enlever le préfixe "data:image/..."
-            imgFolder.file(hotel.image.nom, imageData, {base64: true});
+            // Ajouter les images au zip
+            hotels.forEach((hotel) => {
+                if (hotel.image && hotel.image.data) {
+                    const imageData = hotel.image.data.split(",")[1]; // Enlever le préfixe "data:image/..."
+                    imgFolder.file(hotel.image.nom, imageData, { base64: true });
+                }
+            });
+            chambres.forEach((chambre) => {
+                if (chambre.image && chambre.image.data) {
+                    const imageData = chambre.image.data.split(",")[1]; // Enlever le préfixe "data:image/..."
+                    imgFolder.file(chambre.image.nom, imageData, { base64: true });
+                }
+            });
+
+            // Générer le fichier zip
+            zip.generateAsync({ type: "blob" })
+                .then((content) => {
+                    // Créer un lien de téléchargement pour le fichier zip
+                    const url = URL.createObjectURL(content);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "immo_kongo_export.zip";
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                })
+                .catch((error) => {
+                    console.error("Erreur lors de l'exportation:", error);
+                    alert("Une erreur est survenue lors de l'exportation. Veuillez réessayer.");
+                });
+
+            alert("Exportation en cours. Le téléchargement commencera automatiquement une fois terminé.");
         }
-    });
-    chambres.forEach(chambre => {
-        if (chambre.image && chambre.image.data) {
-            const imageData = chambre.image.data.split(',')[1]; // Enlever le préfixe "data:image/..."
-            imgFolder.file(chambre.image.nom, imageData, {base64: true});
-        }
-    });
 
-    // Générer le fichier zip
-    zip.generateAsync({type: "blob"})
-        .then(content => {
-            // Créer un lien de téléchargement pour le fichier zip
-            const url = URL.createObjectURL(content);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'immo_kongo_export.zip';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        })
-        .catch(error => {
-            console.error('Erreur lors de l\'exportation:', error);
-            alert('Une erreur est survenue lors de l\'exportation. Veuillez réessayer.');
-        });
-
-    alert('Exportation en cours. Le téléchargement commencera automatiquement une fois terminé.');
-}
+        // Les éc
       document
         .getElementById("hotel-form")
         .addEventListener("submit", ajouterHotel);
