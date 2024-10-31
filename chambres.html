@@ -4,26 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="rooms.css" />
+    <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="./header_footer.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Ajoutez votre fichier CSS ici -->
     <title>Détails des Chambres</title>
   </head>
   <body>
-    <header class="header">
+    <header style="background-color: #f1f1f1" class="header">
       <div class="header__logo">
+        <a href="https://immokongo.com">
+          <img
+            class="header__logo-image"
+            src="Assets/immokongo.jpg.webp"
+            alt="logo-immo-kongo"
+          />
+        </a>
+
+        <!-- Icône du menu hamburger -->
         <img
-          class="header__logo-image"
-          src="Assets/immokongo.jpg.webp"
-          alt="logo-immo-kongo"
+          id="menuIcon"
+          class="header__menu-icon"
+          src="./Assets/icon/menu-humberger.png"
+          alt="menu icon"
+          onclick="toggleMenu()"
         />
       </div>
-      <div class="header__nav">
+      <div class="header__nav" id="navMenu">
         <ul class="header__nav-list">
           <li class="header__nav-item">
             <a class="header__nav-link" href="https://immokongo.com">ACCUEIL</a>
           </li>
           <li class="header__nav-item">
-            <a class="header__nav-link" href="chambres.html"
+            <a
+              class="header__nav-link"
+              href="https://immokongo.com/vente-immobilier/"
               >PRODUIT IMMOBILIER</a
             >
           </li>
@@ -41,6 +61,8 @@
 
     <main class="rooms-section">
       <h1 id="hotel-name" class="rooms__title">Détails de l'Hôtel</h1>
+      <!-- Affichez les détails de l'hôtel ici -->
+      <p id="hotel-description" class="hotel-description">description de l'hôtel</p>
       <div id="rooms-container" class="rooms__slider">
         <!-- Les cartes de chambres seront générées ici -->
       </div>

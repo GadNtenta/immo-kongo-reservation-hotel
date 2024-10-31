@@ -7,6 +7,10 @@ const hotelName = urlParams.get("hotel");
 // Afficher le nom de l'hôtel
 document.getElementById("hotel-name").textContent = hotelName;
 
+const hotelDescription = (document.getElementById(
+  "hotel-description"
+).textContent = hotels.find((hotel) => hotel.nom === hotelName).description);
+
 // Filtrer les chambres de l'hôtel sélectionné
 const hotelRooms = chambres.filter((chambre) => chambre.hotel === hotelName);
 
@@ -22,7 +26,7 @@ function generateRoomCards() {
             <h3>${chambre.nom}</h3>
             <img src="${chambre.image}" alt="${chambre.nom}">
             <p>${chambre.description}</p>
-            <p>Prix: ${chambre.prix} €</p>
+            <p>Prix: ${chambre.prix} $</p>
             <button class="reserve-button">Réserver</button> <!-- Bouton Réserver -->
         `;
     roomsContainer.appendChild(roomCard);
