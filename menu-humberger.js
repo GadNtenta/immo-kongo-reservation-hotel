@@ -9,6 +9,6 @@ function toggleMenu() {
   if (navMenu.classList.contains("active")) {
     menuIcon.src = "https://raw.githubusercontent.com/GadNtenta/immo-kongo-reservation-hotel/refs/heads/main/Assets/menu-humberger-open1_1.webp"; // Icône ouverte
   } else {
-    menuIcon.src = "Assets/menu-humberger1.webp"; // Icône fermée
+    menuIcon.src = "https://raw.githubusercontent.com/GadNtenta/immo-kongo-reservation-hotel/refs/heads/main/Assets/menu-humberger1_1.webp"; // Icône fermée
   }
 }
