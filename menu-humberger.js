@@ -7,8 +7,8 @@ function toggleMenu() {
 
   // Changer l'icône du menu en fonction de l'état du menu
   if (navMenu.classList.contains("active")) {
-    menuIcon.src = "Assets/icon/menu-humberger-open.png"; // Icône ouverte
+    menuIcon.src = "Assets/icon/menu-humberger-open1.png"; // Icône ouverte
   } else {
-    menuIcon.src = "Assets/icon/menu-humberger.png"; // Icône fermée
+    menuIcon.src = "Assets/icon/menu-humberger1.png"; // Icône fermée
   }
 }
