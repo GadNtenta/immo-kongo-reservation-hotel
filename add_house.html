@@ -119,9 +119,35 @@
             </select>
             <select id="productType" required>
                 <option value="">Sélectionnez un type de produit</option>
+                <optgroup label="Maison">
+                    <option value="Individuelle">Individuelle</option>
+                    <option value="Jumelée">Jumelée</option>
+                    <option value="Mitoyenne">Mitoyenne</option>
+                    <option value="De ville">De ville</option>
+                </optgroup>
+                <optgroup label="Villa">
+                    <option value="Contemporaine">Contemporaine</option>
+                    <option value="Traditionnelle">Traditionnelle</option>
+                    <option value="De luxe">De luxe</option>
+                    <option value="Balnéaire">Balnéaire</option>
+                </optgroup>
+                <optgroup label="Immeuble">
+                    <option value="Résidentiel">Résidentiel</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Mixte">Mixte</option>
+                    <option value="De bureaux">De bureaux</option>
+                </optgroup>
+                <optgroup label="Appartement">
+                    <option value="Studio">Studio</option>
+                    <option value="F1">F1</option>
+                    <option value="F2">F2</option>
+                    <option value="F3">F3</option>
+                    <option value="F4">F4</option>
+                    <option value="Duplex">Duplex</option>
+                    <option value="Penthouse">Penthouse</option>
+                </optgroup>
             </select>
             <input type="text" id="availability" placeholder="Statut de disponibilité" required>
-            <input type="text" id="stockKeepingUnit" placeholder="Unité de gestion des stocks" required>
             <input type="number" id="price" placeholder="Prix" required>
             <select id="negotiable" required>
                 <option value="oui">Prix négociable</option>
@@ -154,7 +180,7 @@
             appartement: ['Studio', 'F1', 'F2', 'F3', 'F4', 'Duplex', 'Penthouse']
         };
 
-        document.getElementById('category').addEventListener('change', updateProductTypes);
+
         document.getElementById('propertyForm').addEventListener('submit', function(e) {
             e.preventDefault();
             addProperty();
@@ -162,19 +188,6 @@
         document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
         document.getElementById('generateCSV').addEventListener('click', generateCSV);
 
-        function updateProductTypes() {
-            const category = document.getElementById('category').value;
-            const productTypeSelect = document.getElementById('productType');
-            productTypeSelect.innerHTML = '<option value="">Sélectionnez un type de produit</option>';
-            if (category in productTypes) {
-                productTypes[category].forEach(type => {
-                    const option = document.createElement('option');
-                    option.value = type;
-                    option.textContent = type;
-                    productTypeSelect.appendChild(option);
-                });
-            }
-        }
 
         function handleImageUpload(event) {
             const files = event.target.files;
@@ -211,15 +224,26 @@
             updateImagePreview();
         }
 
+        function generateSKU(category, productType, id) {
+            const categoryCode = category.substring(0, 3).toUpperCase();
+            const typeCode = productType.split(' ')[0].substring(0, 3).toUpperCase();
+            const idPadded = id.toString().padStart(4, '0');
+            return `${categoryCode}-${typeCode}-${idPadded}`;
+        }
+
         function addProperty() {
+            const category = document.getElementById('category').value;
+            const productType = document.getElementById('productType').value;
+            const sku = generateSKU(category, productType, nextId);
+
             const property = {
                 id: nextId++,
                 name: document.getElementById('name').value,
                 description: document.getElementById('description').value,
-                category: document.getElementById('category').value,
-                productType: document.getElementById('productType').value,
+                category: category,
+                productType: productType,
                 availability: document.getElementById('availability').value,
-                stockKeepingUnit: document.getElementById('stockKeepingUnit').value,
+                stockKeepingUnit: sku,
                 price: document.getElementById('price').value,
                 negotiable: document.getElementById('negotiable').value,
                 stock: document.getElementById('stock').value,
