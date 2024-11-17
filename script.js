@@ -23,7 +23,7 @@ function handleStarRating(stars, displayElement) {
 
 // Création des cartes de chambres
 function generateRoomCards() {
-  roomsContainer.innerHTML = ""; // Efface le contenu existant
+  roomsContainer.innerHTML = ""; 
   chambres.forEach((chambre) => {
     const roomCard = document.createElement("div");
     roomCard.classList.add("rooms__card");
@@ -163,7 +163,7 @@ function handleHotelStarRating(stars, displayElement) {
 
 // Création des cartes d'hôtels
 function generateHotelCards() {
-  hotelsContainer.innerHTML = ""; // Efface le contenu existant
+  hotelsContainer.innerHTML = ""; 
   hotels.forEach((hotel) => {
     const hotelCard = document.createElement("div");
     hotelCard.classList.add("hotels__card");

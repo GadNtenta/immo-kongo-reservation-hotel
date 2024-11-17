@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Propriétés - Immo Kongo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header-image {
+            width: 100%;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2196F3;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+        #propertyList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .property-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .property-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .remove-image {
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            cursor: pointer;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://immokongo.com/wp-content/uploads/2024/11/immo-kongo.webp" alt="Immo Kongo Header" class="header-image">
+        <h1>Gestion des Propriétés</h1>
+        
+        <form id="propertyForm">
+            <input type="text" id="name" placeholder="Nom de la propriété" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <select id="category" required>
+                <option value="">Sélectionnez une catégorie</option>
+                <option value="maison">Maison</option>
+                <option value="villa">Villa</option>
+                <option value="immeuble">Immeuble</option>
+                <option value="appartement">Appartement</option>
+            </select>
+            <select id="productType" required>
+                <option value="">Sélectionnez un type de produit</option>
+            </select>
+            <input type="text" id="availability" placeholder="Statut de disponibilité" required>
+            <input type="text" id="stockKeepingUnit" placeholder="Unité de gestion des stocks" required>
+            <input type="number" id="price" placeholder="Prix" required>
+            <select id="negotiable" required>
+                <option value="oui">Prix négociable</option>
+                <option value="non">Prix non négociable</option>
+            </select>
+            <input type="number" id="stock" placeholder="Stock" required>
+            
+            <input type="file" id="imageUpload" accept="image/*" multiple>
+            
+            <div id="imagePreview" class="image-preview"></div>
+            
+            <button type="submit">Ajouter la Propriété</button>
+        </form>
+
+        <div id="propertyList"></div>
+        
+        <button id="generateCSV" style="display:none;">Générer CSV</button>
+    </div>
+
+    <script>
+        const BASE_IMAGE_URL = 'https://immokongo.com/wp-content/uploads/2024/11/';
+        let properties = [];
+        let nextId = 1;
+        let currentImages = [];
+
+        const productTypes = {
+            maison: ['Individuelle', 'Jumelée', 'Mitoyenne', 'De ville'],
+            villa: ['Contemporaine', 'Traditionnelle', 'De luxe', 'Balnéaire'],
+            immeuble: ['Résidentiel', 'Commercial', 'Mixte', 'De bureaux'],
+            appartement: ['Studio', 'F1', 'F2', 'F3', 'F4', 'Duplex', 'Penthouse']
+        };
+
+        document.getElementById('category').addEventListener('change', updateProductTypes);
+        document.getElementById('propertyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            addProperty();
+        });
+        document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+        document.getElementById('generateCSV').addEventListener('click', generateCSV);
+
+        function updateProductTypes() {
+            const category = document.getElementById('category').value;
+            const productTypeSelect = document.getElementById('productType');
+            productTypeSelect.innerHTML = '<option value="">Sélectionnez un type de produit</option>';
+            if (category in productTypes) {
+                productTypes[category].forEach(type => {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type;
+                    productTypeSelect.appendChild(option);
+                });
+            }
+        }
+
+        function handleImageUpload(event) {
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentImages.push({
+                        name: file.name,
+                        data: e.target.result
+                    });
+                    updateImagePreview();
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateImagePreview() {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = '';
+            currentImages.forEach((img, index) => {
+                const imgContainer = document.createElement('div');
+                imgContainer.style.position = 'relative';
+                imgContainer.innerHTML = `
+                    <img src="${img.data}" alt="Image preview">
+                    <button class="remove-image" onclick="removeImage(${index})">×</button>
+                `;
+                preview.appendChild(imgContainer);
+            });
+        }
+
+        function removeImage(index) {
+            currentImages.splice(index, 1);
+            updateImagePreview();
+        }
+
+        function addProperty() {
+            const property = {
+                id: nextId++,
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+                category: document.getElementById('category').value,
+                productType: document.getElementById('productType').value,
+                availability: document.getElementById('availability').value,
+                stockKeepingUnit: document.getElementById('stockKeepingUnit').value,
+                price: document.getElementById('price').value,
+                negotiable: document.getElementById('negotiable').value,
+                stock: document.getElementById('stock').value,
+                images: currentImages.map(img => img.name)
+            };
+
+            properties.push(property);
+            displayProperties();
+            document.getElementById('propertyForm').reset();
+            currentImages = [];
+            updateImagePreview();
+            document.getElementById('generateCSV').style.display = 'block';
+        }
+
+        function displayProperties() {
+            const propertyList = document.getElementById('propertyList');
+            propertyList.innerHTML = '';
+            properties.forEach(property => {
+                const propertyElement = document.createElement('div');
+                propertyElement.className = 'property-item';
+                propertyElement.innerHTML = `
+                    <h2>${property.name}</h2>
+                    <p><strong>Prix:</strong> ${new Intl.NumberFormat('fr-FR').format(property.price)} $ (${property.negotiable === 'oui' ? 'Négociable' : 'Non négociable'})</p>
+                    <p>${property.description}</p>
+                    <p><strong>Catégorie:</strong> ${property.category}</p>
+                    <p><strong>Type de produit:</strong> ${property.productType}</p>
+                    <p><strong>Disponibilité:</strong> ${property.availability}</p>
+                    <p><strong>Unité de gestion des stocks:</strong> ${property.stockKeepingUnit}</p>
+                    <div class="image-preview">
+                        ${property.images.map(img => `<img src="${BASE_IMAGE_URL + img}" alt="${property.name}">`).join('')}
+                    </div>
+                `;
+                propertyList.appendChild(propertyElement);
+            });
+        }
+
+        function generateCSV() {
+            let csv = 'ID,Nom,Description,Catégorie,Type de produit,Statut de disponibilité,Unité de gestion des stocks,Prix,Négociable,Stock,Images\n';
+            properties.forEach(property => {
+                const imageUrls = property.images.map(img => BASE_IMAGE_URL + img).join(';');
+                csv += `${property.id},"${property.name}","${property.description}","${property.category}","${property.productType}","${property.availability}","${property.stockKeepingUnit}",${property.price},${property.negotiable},${property.stock},"${imageUrls}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            if (link.download !== undefined) {
+                const url = URL.createObjectURL(blob);
+                link.setAttribute("href", url);
+                link.setAttribute("download", "proprietes_a_vendre.csv");
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+    </script>
+</body>
+</html>
